@@ -185,18 +185,20 @@ function animateRotation() {
     const numberOfRotations = 1;
     frameCount++;
 
-    pivot.rotation.z = calculateRotationSpeed(numberOfRotations, framesPerSecond, frameCount);
-
-    renderer.render( scene, camera );
+    if (animationStep <= totalLoops * 3 - 1) {
+        pivot.rotation.z = calculateRotationSpeed(numberOfRotations, framesPerSecond, frameCount);
+    
+        renderer.render( scene, camera );
+    }
 
     if (frameCount < animationDuration) {
     // Continue the animation until the specified frame count is reached
     requestAnimationFrame(animateRotation);
     } else {
         frameCount = 0;
-        console.log(animationStep);
+        console.log("animationStep: ", animationStep);
 
-        if (animationStep <= 0) {
+        if (animationStep <= totalLoops * 3 - 1) {
             animationStep += 1;
             requestAnimationFrame(animateRotateZoom);
         } else {
@@ -264,6 +266,7 @@ renderer.render( scene, camera );
 
 // Start the animation
 animationStep = 1;
+const totalLoops = 1;
 animateRotation();
 
 // mouse hover effects
