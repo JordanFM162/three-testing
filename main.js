@@ -117,56 +117,56 @@ let sphereNumber = 8;
 
 function moveLight(rotationAngle) {
     let lightSection = (2 * Math.PI) / sphereNumber;
-    let currentCase = 0;
+    // let currentCase = 0;
 
-    if (currentCase != 1 && (rotationAngle <= lightSection || rotationAngle > (2 * Math.PI) - 0.01)) { // needs to change back at end
+    if ((rotationAngle <= lightSection || rotationAngle > (2 * Math.PI) - 0.01)) { // needs to change back at end
         // pivot1.getObjectByName(sphere4.name).remove(light);
         pivot1.getObjectByName(sphere4.name).material = standardMesh;
         pivot.getObjectByName(sphere1.name).add(light);
         pivot.getObjectByName(sphere1.name).material = litStandardMesh;
-        currentCase = 1;
-    } else if (currentCase != 2 && rotationAngle <= lightSection * 2) {
+        // currentCase = 1;
+    } else if (rotationAngle <= lightSection * 2) {
         // pivot.getObjectByName(sphere1.name).remove(light);
         pivot.getObjectByName(sphere1.name).material = standardMesh;
         pivot1.getObjectByName(sphere1.name).add(light);
         pivot1.getObjectByName(sphere1.name).material = litStandardMesh;
-        currentCase = 2;
-    } else if (currentCase != 3 && rotationAngle <= lightSection * 3) {
+        // currentCase = 2;
+    } else if (rotationAngle <= lightSection * 3) {
         // pivot1.getObjectByName(sphere1.name).remove(light);
         pivot1.getObjectByName(sphere1.name).material = standardMesh;
         pivot.getObjectByName(sphere2.name).add(light);
         pivot.getObjectByName(sphere2.name).material = litStandardMesh;
-        currentCase = 3;
-    } else if (currentCase != 4 && rotationAngle <= lightSection * 4) {
+        // currentCase = 3;
+    } else if (rotationAngle <= lightSection * 4) {
         // pivot.getObjectByName(sphere2.name).remove(light);
         pivot.getObjectByName(sphere2.name).material = standardMesh;
         pivot1.getObjectByName(sphere2.name).add(light);
         pivot1.getObjectByName(sphere2.name).material = litStandardMesh;
-        currentCase = 4;
-    } else if (currentCase != 5 && rotationAngle <= lightSection * 5) {
+        // currentCase = 4;
+    } else if (rotationAngle <= lightSection * 5) {
         // pivot1.getObjectByName(sphere2.name).remove(light);
         pivot1.getObjectByName(sphere2.name).material = standardMesh;
         pivot.getObjectByName(sphere3.name).add(light);
         pivot.getObjectByName(sphere3.name).material = litStandardMesh;
-        currentCase = 5;
-    } else if (currentCase != 6 && rotationAngle <= lightSection * 6) {
+        // currentCase = 5;
+    } else if (rotationAngle <= lightSection * 6) {
         // pivot.getObjectByName(sphere3.name).remove(light);
         pivot.getObjectByName(sphere3.name).material = standardMesh;
         pivot1.getObjectByName(sphere3.name).add(light);
         pivot1.getObjectByName(sphere3.name).material = litStandardMesh;
-        currentCase = 6;
-    } else if (currentCase != 7 && rotationAngle <= lightSection * 7) {
+        // currentCase = 6;
+    } else if (rotationAngle <= lightSection * 7) {
         // pivot1.getObjectByName(sphere3.name).remove(light);
         pivot1.getObjectByName(sphere3.name).material = standardMesh;
         pivot.getObjectByName(sphere4.name).add(light);
         pivot.getObjectByName(sphere4.name).material = litStandardMesh;
-        currentCase = 7;
-    } else if (currentCase != 8 && rotationAngle <= lightSection * 8) {
+        // currentCase = 7;
+    } else if (rotationAngle <= lightSection * 8) {
         // pivot.getObjectByName(sphere4.name).remove(light);
         pivot.getObjectByName(sphere4.name).material = standardMesh;
         pivot1.getObjectByName(sphere4.name).add(light);
         pivot1.getObjectByName(sphere4.name).material = litStandardMesh;
-        currentCase = 8;
+        // currentCase = 8;
     }
 }
 
@@ -210,7 +210,7 @@ function animateRotation() {
 function animateRotateZoom() {
     const framesPerSecond = 60; // Adjust as needed
     const animationDuration = 5 * framesPerSecond; // in seconds
-    const progress = Math.min(frameCount / animationDuration, 1);
+    // const progress = Math.min(frameCount / animationDuration, 1);
     const numberOfRotations = 1;
     frameCount++;
 
