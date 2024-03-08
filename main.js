@@ -341,6 +341,7 @@ tl
     .from(gsapSphere4.position, {duration: 1, x: 15, y: -15}, "<")
     .from(gsapSphere2.position, {duration: 1, y: 50}, "<")
     .from(gsapSphere3.position, {duration: 1, y: 50}, "<")
+    .from(gsapSphere5.position, {duration: 1, y: -50}, "<")
     .from(gsapSphere8.position, {duration: 1, x: 0, y: 0}, "<");
 tl.to(gsapPivot.rotation, {duration: 5, z: (Math.PI * 2), ease: "power0"});
 
@@ -396,6 +397,7 @@ gsapScene.add(ambientLight);
 // Handle mouse movements
 const gsapPlane = new THREE.Mesh( new THREE.PlaneGeometry( window.innerWidth, window.innerHeight ), new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true, opacity: 0} ) );
 gsapPlane.position.z = 10;
+light.position.z = 10;
 gsapScene.add( gsapPlane );
 window.addEventListener('mousemove', (event) => {
 // Convert mouse coordinates to normalized device coordinates (-1 to 1)
