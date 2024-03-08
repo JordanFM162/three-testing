@@ -334,7 +334,9 @@ gsapScene.add(gsapPivot);
 // tl.to(gsapSphere1.position, {duration: 1, x: 20})
 // tl.to(gsapSphere2.position, {duration: 1, x: 20}, "-=1")
 tl
+    // spheres zoom out
     .from(gsapPivot.position, {duration: 3, z: 40})
+    // spheres move from x position to the circle position
     .from(gsapSphere1.position, {duration: 1, x: 15, y: 15})
     .from(gsapSphere7.position, {duration: 1, x: -15, y: 15}, "<")
     .from(gsapSphere6.position, {duration: 1, x: -15, y: -15}, "<")
@@ -342,10 +344,18 @@ tl
     .from(gsapSphere2.position, {duration: 1, y: 50}, "<")
     .from(gsapSphere3.position, {duration: 1, y: 50}, "<")
     .from(gsapSphere5.position, {duration: 1, y: -50}, "<")
-    .from(gsapSphere8.position, {duration: 1, x: 0, y: 0}, "<");
-tl.to(gsapPivot.rotation, {duration: 5, z: (Math.PI * 2), ease: "power0"});
+    .from(gsapSphere8.position, {duration: 1, x: 0, y: 0}, "<")
+    // spheres rotate once
+    .to(gsapPivot.rotation, {duration: 5, z: (Math.PI * 2), ease: "none"});
 
-distanceFromCenter = 10;
+function setXFromCenter(totalSpheres, sphereNumber, distance) {
+    return Math.sin((Math.PI * 2) * (sphereNumber/totalSpheres)) * distance;
+}
+function setYFromCenter(totalSpheres, sphereNumber, distance) {
+    return Math.cos((Math.PI * 2) * (sphereNumber/totalSpheres)) * distance;
+}
+
+// distanceFromCenter = 10;
 // gsapSphereArray.forEach((gsapSphere, i) => {
 //     gsap.to(gsapSphere.position, {duration: 5, x: Math.sin((Math.PI * 2) * (i/8)) * distanceFromCenter, y: Math.cos((Math.PI * 2) * (i/8)) * distanceFromCenter, repeat: 1, yoyo: true})
 // })
