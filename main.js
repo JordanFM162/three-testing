@@ -7,27 +7,6 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-// const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 }, );
-// const material = new THREE.MeshPhongMaterial( {
-//     color: 0xffffff,
-//     flatShading: true,
-//     vertexColors: true,
-//     shininess: 0
-// } );
-// const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-// const material = new THREE.MeshBasicMaterial( {color: 0x00ff00}, );
-// const cube = new THREE.Mesh( geometry, material );
-// scene.add( cube );
-
-// const sphere = new THREE.Mesh(
-//     new THREE.CapsuleGeometry(2, 0, 25, 25),
-//     new THREE.MeshDepthMaterial( {color : 0x00ff00})
-// );
-
-// const pointLight = new THREE.PointLight( 0xff0000 , 100, 0, 2);
-// pointLight.position.set( 10, 10, 10 );
-// scene.add( pointLight );
-
 const light = new THREE.PointLight( 0xffffff, 1000, 0, 2);
 light.position.set( 0, 0, 0 );
 // scene.add( light );
@@ -55,11 +34,6 @@ const sphere4 = new THREE.Mesh( geometry, standardMesh );
 sphere4.name = "sphere4";
 // scene.add( sphere4 );
 
-// const sphere5 = new THREE.Mesh( geometry, material );
-// scene.add( sphere5 );
-// const sphere6 = new THREE.Mesh( geometry, material );
-// scene.add( sphere6 );
-
 var pivot = new THREE.Object3D();
 pivot.position.set( 0, 0, 0);
 pivot.add( sphere1 );
@@ -86,18 +60,6 @@ pivot.add(pivot1);
 
 sphere1.add( light );
 scene.add( pivot );
-// scene.add( pivot1 );
-
-// console.log(pivot);
-// console.log(pivot1);
-
-// sphere5.position.x = 40;
-// sphere5.position.y = 40;
-
-// sphere6.position.x = 40;
-// sphere6.position.y = 40;
-
-// camera.position.z = 50;
 camera.position.set( 0, 0, 50);
 
 // function animate() {
@@ -261,44 +223,36 @@ function animateRotateShrink() {
 //     console.log("triggered");
 // });
 
-// Generate initial scene
-renderer.render( scene, camera );
+// // mouse hover effects
+// const raycaster = new THREE.Raycaster();
+// const mouseVector = new THREE.Vector2();
+// let isHovered = false;
 
-// Start the animation
-animationStep = 1;
-const totalLoops = 1;
-animateRotation();
+// document.addEventListener('mousemove', (event) => {
+//   mouseVector.x = (event.clientX / window.innerWidth) * 2 - 1;
+//   mouseVector.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
-// mouse hover effects
-const raycaster = new THREE.Raycaster();
-const mouseVector = new THREE.Vector2();
-let isHovered = false;
+//   raycaster.setFromCamera(mouseVector, camera);
 
-document.addEventListener('mousemove', (event) => {
-  mouseVector.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouseVector.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouseVector, camera);
-
-  const intersects = raycaster.intersectObject(light.parent);
+//   const intersects = raycaster.intersectObject(light.parent);
   
-  if (intersects.length > 0) {
-    if (!isHovered) {
-      // Mouse has entered the object
-      isHovered = true;
-      console.log("Mouse entered object:", intersects[0].object);
-    //   console.log("triggered");
-    //   hoverEffect();
-    }
-  } else {
-    if (isHovered) {
-      // Mouse has left the object
-      isHovered = false;
-      console.log("Mouse left object");
-    //   console.log("triggered");
-    }
-  }
-});
+//   if (intersects.length > 0) {
+//     if (!isHovered) {
+//       // Mouse has entered the object
+//       isHovered = true;
+//       console.log("Mouse entered object:", intersects[0].object);
+//     //   console.log("triggered");
+//     //   hoverEffect();
+//     }
+//   } else {
+//     if (isHovered) {
+//       // Mouse has left the object
+//       isHovered = false;
+//       console.log("Mouse left object");
+//     //   console.log("triggered");
+//     }
+//   }
+// });
 
 let lowering = false
 function hoverEffect() {
@@ -333,14 +287,171 @@ function hoverEffect() {
     requestAnimationFrame(hoverEffect);
 }
 
-hoverEffect();
+// // Generate initial scene
+// renderer.render( scene, camera );
+
+// // Start the animation
+// animationStep = 1;
+// const totalLoops = 1;
+// animateRotation();
+
+// hoverEffect();
+
+
+
+/* Gsap animated */
+import { gsap } from "gsap";
+
+var tl = gsap.timeline();
+const gsapScene = new THREE.Scene();
+const gsapSphere1 = new THREE.Mesh(geometry, standardMesh);
+const gsapSphere2 = new THREE.Mesh(geometry, standardMesh);
+const gsapSphere3 = new THREE.Mesh(geometry, standardMesh);
+const gsapSphere4 = new THREE.Mesh(geometry, standardMesh);
+const gsapSphere5 = new THREE.Mesh(geometry, standardMesh);
+const gsapSphere6 = new THREE.Mesh(geometry, standardMesh);
+const gsapSphere7 = new THREE.Mesh(geometry, standardMesh);
+const gsapSphere8 = new THREE.Mesh(geometry, standardMesh);
+
+var distanceFromCenter = 20;
+
+gsapSphere1.position.set(Math.sin((Math.PI * 2) * (0/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (0/8)) * distanceFromCenter, 0)
+gsapSphere2.position.set(Math.sin((Math.PI * 2) * (1/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (1/8)) * distanceFromCenter, 0)
+gsapSphere3.position.set(Math.sin((Math.PI * 2) * (2/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (2/8)) * distanceFromCenter, 0)
+gsapSphere4.position.set(Math.sin((Math.PI * 2) * (3/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (3/8)) * distanceFromCenter, 0)
+gsapSphere5.position.set(Math.sin((Math.PI * 2) * (4/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (4/8)) * distanceFromCenter, 0)
+gsapSphere6.position.set(Math.sin((Math.PI * 2) * (5/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (5/8)) * distanceFromCenter, 0)
+gsapSphere7.position.set(Math.sin((Math.PI * 2) * (6/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (6/8)) * distanceFromCenter, 0)
+gsapSphere8.position.set(Math.sin((Math.PI * 2) * (7/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (7/8)) * distanceFromCenter, 0)
+
+let gsapSphereArray = [gsapSphere1, gsapSphere2, gsapSphere3, gsapSphere4, gsapSphere5, gsapSphere6, gsapSphere7, gsapSphere8];
+
+var gsapPivot = new THREE.Object3D();
+gsapPivot.add( gsapSphere1, gsapSphere2, gsapSphere3, gsapSphere4, gsapSphere5, gsapSphere6, gsapSphere7, gsapSphere8 );
+
+gsapScene.add(gsapPivot);
+
+// tl.to(gsapSphere1.position, {duration: 1, x: 20})
+// tl.to(gsapSphere2.position, {duration: 1, x: 20}, "-=1")
+tl.to(gsapPivot.rotation, {duration: 5, z: (Math.PI * 2), ease: "power0"});
+
+gsapSphereArray.forEach((gsapSphere, i) => {
+    gsap.to(gsapSphere.position, {duration: 5, x: Math.sin((Math.PI * 2) * (i/8)) * 10, y: Math.cos((Math.PI * 2) * (i/8)) * 10, repeat: 1, yoyo: true})
+})
+// tl.to(gsapSphere1.position, {duration: 1, x: 0})
+// tl.to(gsapSphere2.position, {duration: 1, x: 0}, "-=1")
+// tl.to(gsapPivot.rotation, {duration: 1, z: 0}, "-=1")
+
+// mouse hover effects
+// const gsapRaycaster = new THREE.Raycaster();
+// const gsapMouseVector = new THREE.Vector2();
+// let gsapIsHovered = false;
+
+// const gsapSphere2 = new THREE.Mesh(geometry, litStandardMesh);
+// gsapScene.add( gsapSphere2 );
+gsapScene.add(light);
+gsapScene.add(ambientLight);
+// gsapSphere2.position = new THREE.Vector2(); 
+
+// document.addEventListener('mousemove', (event) => {
+//   gsapMouseVector.x = (event.clientX / window.innerWidth) * 2 - 1;
+//   gsapMouseVector.y = -(event.clientY / window.innerHeight) * 2 + 1;
+//   gsapSphere2.position.x = (event.clientX / window.innerWidth) * 2 - 1;
+//   gsapSphere2.position.y = -(event.clientY / window.innerHeight) * 2 + 1;
+// //   console.log("x: ", gsapMouseVector.x, "y: ", gsapMouseVector.y);
+
+//   gsapRaycaster.setFromCamera(gsapMouseVector, camera);
+//   console.log("gsapRaycaseter:", gsapRaycaster);
+
+//   const intersects = gsapRaycaster.intersectObject(light.parent);
+  
+//   if (intersects.length > 0) {
+//     if (!gsapIsHovered) {
+//       // Mouse has entered the object
+//       gsapIsHovered = true;
+//       console.log("Mouse entered object:", intersects[0].object);
+//     //   console.log("triggered");
+//     //   hoverEffect();
+//     }
+//   } else {
+//     if (gsapIsHovered) {
+//       // Mouse has left the object
+//       gsapIsHovered = false;
+//       console.log("Mouse left object");
+//     //   console.log("triggered");
+//     }
+//   }
+// });
+
+// Handle mouse movements
+const gsapPlane = new THREE.Mesh( new THREE.PlaneGeometry( window.innerWidth, window.innerHeight ), new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true, opacity: 0} ) );
+gsapPlane.position.z = 10;
+gsapScene.add( gsapPlane );
+window.addEventListener('mousemove', (event) => {
+// Convert mouse coordinates to normalized device coordinates (-1 to 1)
+const mouse = new THREE.Vector2();
+mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+// Update the sphere's position based on mouse coordinates
+const raycaster = new THREE.Raycaster();
+raycaster.setFromCamera(mouse, camera);
+
+const intersection = raycaster.intersectObject(gsapPlane);
+if (intersection.length > 0) {
+    const position = intersection[0].point;
+    light.position.copy(position); // Set z-axis position to 0
+    console.log(light.position);
+}
+});
+
+//   // Handle mouse movements
+//   window.addEventListener('mousemove', (event) => {
+//     // Convert mouse coordinates to normalized device coordinates (-1 to 1)
+//     const mouse = new THREE.Vector2();
+//     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+//     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+//     // Set the distance from the camera to the sphere
+//     const distance = 50;
+
+//     // Set the target position in world space
+//     const target = new THREE.Vector3(mouse.x, mouse.y, -distance);
+
+//     // Convert the target position to world space
+//     target.unproject(camera);
+
+//     // Set the x and y components of the sphere's position based on the target position
+//     gsapSphere2.position.x = target.x;
+//     gsapSphere2.position.y = target.y;
+//     console.log(gsapSphere2.position);
+//   });
+
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.render( gsapScene, camera );
+});
+
+
+// Render loop
+const gsapAnimate = () => {
+  requestAnimationFrame(gsapAnimate);
+
+  // Render the scene
+  renderer.render(gsapScene, camera);
+};
+
+renderer.render( gsapScene, camera );
+gsapAnimate();
 
 
 
 
-
-
-
+/* Downloaded example */
 
 // import * as THREE from 'three';
 
