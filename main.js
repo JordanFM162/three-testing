@@ -452,7 +452,24 @@ tl
     }});
 
 // second rotation where it spins out
-tl.to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2) * 2, ease: "none"});
+tl.to(gsapPivot.rotation, {duration: 10, x: -0.5, y: 0.5, z: -(Math.PI * 2) * 2, ease: "none", onStart: function() {
+    gsapSphereArray.forEach((gsapSphere, i) => {
+        // dim effects
+        t2.to(light, {duration: 10 / 8 / 2, intensity: 0, ease: "none"});
+        t2.to(gsapSphereArray[gsapSphereArray.length - i - 1].material, {duration: 10 / 8 / 2, emissiveIntensity: 0, ease: "none"}, "<");
+        //brighten effects
+        if (i === gsapSphereArray.length - 1) {
+            t2.to(light, {duration: 10 / 8 / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
+        } else {
+            t2.to(light, {duration: 10 / 8 / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
+        }
+        if (i === gsapSphereArray.length - 1) {
+            t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 10 / 8 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+        } else {
+            t2.to(gsapSphereArray[gsapSphereArray.length - i - 2].material, {duration: 10 / 8 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+        }
+    })
+}});
 gsapSphereArray.forEach((gsapSphere, i) => {
     tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(8, i+1, 80 - i*10), y: setYFromCenter(8, i+1, 80 - i*10)}, "<")
 })
@@ -460,13 +477,38 @@ gsapSphereArray.forEach((gsapSphere, i) => {
 // third rotation where it spins in with less spheres
 let gsapSphereArraySmaller = gsapSphereArray.slice(3);
 let gsapSphereArrayRemainder = gsapSphereArray.slice(0, 3);
-tl.to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2) * 3, ease: "none"});
+tl.to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2) * 3, ease: "none", onStart: function() {
+    gsapSphereArraySmaller.forEach((gsapSphere, i) => {
+        // dim effects
+        t2.to(light, {duration: 10 / 5 / 2, intensity: 0, ease: "none"});
+        t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 1].material, {duration: 10 / 5 / 2, emissiveIntensity: 0, ease: "none"}, "<");
+        //brighten effects
+        if (i === gsapSphereArraySmaller.length - 1) {
+            t2.to(light, {duration: 10 / 5 / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - 1].add(light)}});
+        } else {
+            t2.to(light, {duration: 10 / 5 / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 2].add(light)}});
+        }
+        if (i === gsapSphereArraySmaller.length - 1) {
+            t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - 1].material, {duration: 10 / 5 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+        } else {
+            t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 2].material, {duration: 10 / 5 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+        }
+    })
+}});
 gsapSphereArraySmaller.forEach((gsapSphere, i) => {
     tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(5, i+1, 10), y: setYFromCenter(5, i+1, 10)}, "<")
 })
 gsapSphereArrayRemainder.forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(8, i+1, 100), y: setYFromCenter(8, i+1, 100)}, "<")
+    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(8, i+1, 2000), y: setYFromCenter(8, i+1, 1000)}, "<")
 })
+
+// Spheres leave circle formation
+tl.to(gsapPivot.rotation, {duration: 5, z: -(Math.PI * 2) * 3 - 0.5});
+tl.to(gsapSphere8.position, {duration: 5, x: 15}, "<");
+tl.to(gsapSphere7.position, {duration: 5, y: 17, z: 15}, "<");
+tl.to(gsapSphere6.position, {duration: 5, x: -10}, "<");
+tl.to(gsapSphere5.position, {duration: 5, x: 3, y: -10}, "<");
+tl.to(gsapSphere4.position, {duration: 5, x: 30, y: -15, z: -10}, "<");
 
 function setXFromCenter(totalSpheres, sphereNumber, distance) {
     return Math.sin((Math.PI * 2) * (sphereNumber/totalSpheres)) * distance;
