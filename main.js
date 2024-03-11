@@ -303,15 +303,20 @@ function hoverEffect() {
 import { gsap } from "gsap";
 
 var tl = gsap.timeline();
+var t2 = gsap.timeline();
 const gsapScene = new THREE.Scene();
-const gsapSphere1 = new THREE.Mesh(geometry, standardMesh);
-const gsapSphere2 = new THREE.Mesh(geometry, standardMesh);
-const gsapSphere3 = new THREE.Mesh(geometry, standardMesh);
-const gsapSphere4 = new THREE.Mesh(geometry, standardMesh);
-const gsapSphere5 = new THREE.Mesh(geometry, standardMesh);
-const gsapSphere6 = new THREE.Mesh(geometry, standardMesh);
-const gsapSphere7 = new THREE.Mesh(geometry, standardMesh);
-const gsapSphere8 = new THREE.Mesh(geometry, standardMesh);
+
+const lightableStandardMesh = new THREE.MeshStandardMaterial( {color: 0x00aa00, emissive: 0x00aa00, emissiveIntensity: 0} );
+const gsapSphere1 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
+const gsapSphere2 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
+const gsapSphere3 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
+const gsapSphere4 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
+const gsapSphere5 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
+const gsapSphere6 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
+const gsapSphere7 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
+const gsapSphere8 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
+gsapSphere8.material.emissiveIntensity = 1;
+gsapSphere8.add(light);
 
 var distanceFromCenter = 20;
 
@@ -331,8 +336,89 @@ gsapPivot.add( gsapSphere1, gsapSphere2, gsapSphere3, gsapSphere4, gsapSphere5, 
 
 gsapScene.add(gsapPivot);
 
-// tl.to(gsapSphere1.position, {duration: 1, x: 20})
-// tl.to(gsapSphere2.position, {duration: 1, x: 20}, "-=1")
+/* accidentally rotated wrong way */
+/*
+    tl
+        // spheres zoom out
+        .from(gsapPivot.position, {duration: 3, z: 40})
+        // spheres move from x position to the circle position
+        .from(gsapSphere1.position, {duration: 1, x: 15, y: 15})
+        .from(gsapSphere7.position, {duration: 1, x: -15, y: 15}, "<")
+        .from(gsapSphere6.position, {duration: 1, x: -15, y: -15}, "<")
+        .from(gsapSphere4.position, {duration: 1, x: 15, y: -15}, "<")
+        .from(gsapSphere2.position, {duration: 1, y: 50}, "<")
+        .from(gsapSphere3.position, {duration: 1, y: 50}, "<")
+        .from(gsapSphere5.position, {duration: 1, y: -50}, "<")
+        .from(gsapSphere8.position, {duration: 1, x: 0, y: 0}, "<")
+        // spheres rotate once
+        // .to(gsapPivot.rotation, {duration: 10, z: (Math.PI * 2), ease: "none", onUpdate: function() {
+        //     gsapSphereArray.forEach((gsapSphere, i) => {
+        //         if (
+        //             gsapPivot.rotation.z <= Math.PI * 2 / gsapSphereArray.length * (i + 1) &&
+        //             gsapPivot.rotation.z >= Math.PI * 2 / gsapSphereArray.length * (i)
+        //             ) {
+        //             let testLightMoved = light.parent;
+        //             gsapSphere.add(light);
+
+        //             if (testLightMoved !== light.parent) {
+        //                 light.intensity = 0;
+        //                 gsap.to(light, {duration: 10 / 8 / 2, intensity: 1000, ease: "none"})
+        //             };
+
+        //             if (light.intensity === 1000 && i !== gsapSphereArray.length - 1) {
+        //                 gsap.to(light, {duration: 10 / 8 / 2, intensity: 0, ease: "none"})
+        //             };
+
+        //             gsap.to(gsapSphere.material, {duration: 10 / 8 / 2, emissiveIntensity: 1, ease: "none", onComplete: function(){
+        //                 if (i !== gsapSphereArray.length - 1) {
+        //                     gsap.to(gsapSphere.material, {duration: 10 / 8 / 2, emissiveIntensity: 0, ease: "none"})
+        //                 }
+        //             }});
+
+        //             if (i === 0) {
+        //                 gsap.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 10 / 8 / 2, emissiveIntensity: 0, ease: "none"});
+        //             }
+        //         };
+        //         // gsap.to(gsapSphere.position, {duration: 5, x: Math.sin((Math.PI * 2) * (i/8)) * distanceFromCenter, y: Math.cos((Math.PI * 2) * (i/8)) * distanceFromCenter, repeat: 1, yoyo: true})
+        //     })
+        // }});
+        .to(gsapPivot.rotation, {duration: 10, z: (Math.PI * 2), ease: "none", onStart: function() {
+            gsapSphereArray.forEach((gsapSphere, i) => {
+                // dim effects
+                t2.to(light, {duration: 10 / 8 / 2, intensity: 0, ease: "none"});
+                if (i === 0) {
+                    t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 10 / 8 / 2, emissiveIntensity: 0, ease: "none"}, "<");
+                } else {
+                    t2.to(gsapSphereArray[i-1].material, {duration: 10 / 8 / 2, emissiveIntensity: 0, ease: "none"}, "<");
+                }
+                //brighten effects
+                t2.to(light, {duration: 10 / 8 / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphere.add(light)}});
+                if (i === gsapSphereArray.length - 1) {
+                    t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 10 / 8 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+                } else {
+                    t2.to(gsapSphere.material, {duration: 10 / 8 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+                }
+            })
+        }});
+
+    // second rotation where it spins out
+    tl.to(gsapPivot.rotation, {duration: 10, z: (Math.PI * 2) * 2, ease: "none"});
+    gsapSphereArray.forEach((gsapSphere, i) => {
+        tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(8, i+1, 80 - i*10), y: setYFromCenter(8, i+1, 80 - i*10)}, "<")
+    })
+
+    // third rotation where it spins in with less spheres
+    let gsapSphereArraySmaller = gsapSphereArray.slice(0, 5);
+    let gsapSphereArrayRemainder = gsapSphereArray.slice(5);
+    tl.to(gsapPivot.rotation, {duration: 10, z: (Math.PI * 2) * 3, ease: "none"});
+    gsapSphereArraySmaller.forEach((gsapSphere, i) => {
+        tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(5, i+1, 10), y: setYFromCenter(5, i+1, 10)}, "<")
+    })
+    gsapSphereArrayRemainder.forEach((gsapSphere, i) => {
+        tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(8, i+6, 100), y: setYFromCenter(8, i+6, 100)}, "<")
+    })
+*/
+
 tl
     // spheres zoom out
     .from(gsapPivot.position, {duration: 3, z: 40})
@@ -346,7 +432,41 @@ tl
     .from(gsapSphere5.position, {duration: 1, y: -50}, "<")
     .from(gsapSphere8.position, {duration: 1, x: 0, y: 0}, "<")
     // spheres rotate once
-    .to(gsapPivot.rotation, {duration: 5, z: (Math.PI * 2), ease: "none"});
+    .to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2), ease: "none", onStart: function() {
+        gsapSphereArray.forEach((gsapSphere, i) => {
+            // dim effects
+            t2.to(light, {duration: 10 / 8 / 2, intensity: 0, ease: "none"});
+            t2.to(gsapSphereArray[gsapSphereArray.length - i - 1].material, {duration: 10 / 8 / 2, emissiveIntensity: 0, ease: "none"}, "<");
+            //brighten effects
+            if (i === gsapSphereArray.length - 1) {
+                t2.to(light, {duration: 10 / 8 / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
+            } else {
+                t2.to(light, {duration: 10 / 8 / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
+            }
+            if (i === gsapSphereArray.length - 1) {
+                t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 10 / 8 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+            } else {
+                t2.to(gsapSphereArray[gsapSphereArray.length - i - 2].material, {duration: 10 / 8 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+            }
+        })
+    }});
+
+// second rotation where it spins out
+tl.to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2) * 2, ease: "none"});
+gsapSphereArray.forEach((gsapSphere, i) => {
+    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(8, i+1, 80 - i*10), y: setYFromCenter(8, i+1, 80 - i*10)}, "<")
+})
+
+// third rotation where it spins in with less spheres
+let gsapSphereArraySmaller = gsapSphereArray.slice(3);
+let gsapSphereArrayRemainder = gsapSphereArray.slice(0, 3);
+tl.to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2) * 3, ease: "none"});
+gsapSphereArraySmaller.forEach((gsapSphere, i) => {
+    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(5, i+1, 10), y: setYFromCenter(5, i+1, 10)}, "<")
+})
+gsapSphereArrayRemainder.forEach((gsapSphere, i) => {
+    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(8, i+1, 100), y: setYFromCenter(8, i+1, 100)}, "<")
+})
 
 function setXFromCenter(totalSpheres, sphereNumber, distance) {
     return Math.sin((Math.PI * 2) * (sphereNumber/totalSpheres)) * distance;
@@ -370,7 +490,7 @@ function setYFromCenter(totalSpheres, sphereNumber, distance) {
 
 // const gsapSphere2 = new THREE.Mesh(geometry, litStandardMesh);
 // gsapScene.add( gsapSphere2 );
-gsapScene.add(light);
+// gsapScene.add(light);
 gsapScene.add(ambientLight);
 // gsapSphere2.position = new THREE.Vector2(); 
 
@@ -405,9 +525,12 @@ gsapScene.add(ambientLight);
 // });
 
 // Handle mouse movements
+const mouseLight = new THREE.PointLight( 0xffffff, 1000, 0, 2);
+mouseLight.position.set( 1000, 1000, 10 );
+gsapScene.add(mouseLight);
 const gsapPlane = new THREE.Mesh( new THREE.PlaneGeometry( window.innerWidth, window.innerHeight ), new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true, opacity: 0} ) );
 gsapPlane.position.z = 10;
-light.position.z = 10;
+// light.position.z = 10;
 gsapScene.add( gsapPlane );
 window.addEventListener('mousemove', (event) => {
 // Convert mouse coordinates to normalized device coordinates (-1 to 1)
@@ -422,8 +545,8 @@ raycaster.setFromCamera(mouse, camera);
 const intersection = raycaster.intersectObject(gsapPlane);
 if (intersection.length > 0) {
     const position = intersection[0].point;
-    light.position.copy(position); // Set z-axis position to 0
-    console.log(light.position);
+    mouseLight.position.copy(position);
+    // console.log(mouseLight.position);
 }
 });
 
