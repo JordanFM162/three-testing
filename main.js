@@ -505,10 +505,23 @@ gsapSphereArrayRemainder.forEach((gsapSphere, i) => {
 // Spheres leave circle formation
 tl.to(gsapPivot.rotation, {duration: 5, z: -(Math.PI * 2) * 3 - 0.5});
 tl.to(gsapSphere8.position, {duration: 5, x: 15}, "<");
-tl.to(gsapSphere7.position, {duration: 5, y: 17, z: 15}, "<");
+tl.to(gsapSphere7.position, {duration: 5, x: -5, y: 3, z: 10}, "<");
 tl.to(gsapSphere6.position, {duration: 5, x: -10}, "<");
 tl.to(gsapSphere5.position, {duration: 5, x: 3, y: -10}, "<");
-tl.to(gsapSphere4.position, {duration: 5, x: 30, y: -15, z: -10}, "<");
+tl.to(gsapSphere4.position, {duration: 5, x: 18, y: -8, z: 0}, "<");
+
+// Spheres surround lit sphere
+tl.to(gsapPivot.rotation, {duration: 2, x: 0, y: 0, z: -(Math.PI * 2) * 3});
+tl.to(gsapSphere8.position, {duration: 2, x: 0, y: 0, z: 5}, "<");
+gsapSphereArraySmaller.slice(0, 4).forEach((gsapSphere, i) => {
+    tl.to(gsapSphere.position, {duration: 2, x: setXFromCenter(4, i+1, 15), y: setYFromCenter(4, i+1, 15), z: 0}, "<")
+})
+
+// Spheres split appart
+tl.to(gsapSphere8.position, {duration: 1, x: 0, y: 100, z: 5});
+gsapSphereArraySmaller.slice(0, 4).forEach((gsapSphere, i) => {
+    tl.to(gsapSphere.position, {duration: 1, x: setXFromCenter(4, i+1, 100), y: setYFromCenter(4, i+1, 100), z: 0}, "<")
+})
 
 function setXFromCenter(totalSpheres, sphereNumber, distance) {
     return Math.sin((Math.PI * 2) * (sphereNumber/totalSpheres)) * distance;
