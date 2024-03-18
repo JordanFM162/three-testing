@@ -1,7 +1,8 @@
 import * as THREE from 'three';
+import CustomEase from 'gsap/CustomEase';
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+const camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 0.1, 1000 );
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -60,7 +61,7 @@ pivot.add(pivot1);
 
 sphere1.add( light );
 scene.add( pivot );
-camera.position.set( 0, 0, 50);
+camera.position.set( 0, 0, 100);
 
 // function animate() {
 // 	requestAnimationFrame( animate );
@@ -310,24 +311,27 @@ const gsapScene = new THREE.Scene();
 gsapScene.background = gsapSceneColor;
 // console.log(gsapScene.background);
 
+const gsapGeometry = new THREE.SphereGeometry( 10, 32, 16 ); 
 const lightableStandardMesh = new THREE.MeshStandardMaterial( {color: 0xB4EC77, emissive: 0xB4EC77, emissiveIntensity: 0} );
-const gsapSphere1 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere2 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere3 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere4 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere5 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere6 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere7 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere8 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere9 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere10 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere11 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere12 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
-const gsapSphere13 = new THREE.Mesh(geometry, lightableStandardMesh.clone());
+const testStandardMesh = new THREE.MeshStandardMaterial( {color: 0xB40000, emissive: 0xB40000, emissiveIntensity: 0} )
+
+const gsapSphere1 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere2 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere3 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere4 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere5 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere6 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere7 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere8 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere9 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere10 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere11 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere12 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
+const gsapSphere13 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
 gsapSphere13.material.emissiveIntensity = 1;
 gsapSphere13.add(light);
 
-var distanceFromCenter = 20;
+var distanceFromCenter = 50;
 
 // gsapSphere1.position.set(Math.sin((Math.PI * 2) * (0/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (0/8)) * distanceFromCenter, 0)
 // gsapSphere2.position.set(Math.sin((Math.PI * 2) * (1/8)) * distanceFromCenter, Math.cos((Math.PI * 2) * (1/8)) * distanceFromCenter, 0)
@@ -437,21 +441,22 @@ gsapScene.add(gsapPivot);
 
 tl
     // spheres zoom out
-    .from(gsapPivot.position, {duration: 3, z: 40})
+    .from(gsapPivot.position, {duration: 3, z: 70, ease: CustomEase.create("custom", "M0,0 C1.043,-0.036 0.234,0.989 1,1 ")})
     // spheres move from x position to the circle position
-    .from(gsapSphere1.position, {duration: 1, x: 15, y: 15})
-    .from(gsapSphere7.position, {duration: 1, x: -15, y: 15}, "<")
-    .from(gsapSphere6.position, {duration: 1, x: -15, y: -15}, "<")
-    .from(gsapSphere4.position, {duration: 1, x: 15, y: -15}, "<")
-    .from(gsapSphere2.position, {duration: 1, y: 50}, "<")
-    .from(gsapSphere3.position, {duration: 1, y: 50}, "<")
-    .from(gsapSphere5.position, {duration: 1, y: -50}, "<")
-    .from(gsapSphere8.position, {duration: 1, x: 0, y: 0}, "<")
-    .from(gsapSphere9.position, {duration: 1, x: 50, y: -50}, "<")
-    .from(gsapSphere10.position, {duration: 1, x: 50, y: -50}, "<")
-    .from(gsapSphere11.position, {duration: 1, x: 50, y: -50}, "<")
-    .from(gsapSphere12.position, {duration: 1, x: 50, y: -50}, "<")
-    .from(gsapSphere13.position, {duration: 1, x: 50, y: -50}, "<")
+    .from(gsapSphere1.position, {duration: 1, x: 50, y: -50})
+    .from(gsapSphere7.position, {duration: 1, x: 50, y: -50}, "<")
+    .from(gsapSphere6.position, {duration: 1, x: 50, y: -50}, "<")
+    .from(gsapSphere4.position, {duration: 1, x: 50, y: -50}, "<")
+    .from(gsapSphere2.position, {duration: 1, x: 50, y: -50}, "<")
+    .from(gsapSphere3.position, {duration: 1, x: 15, y: 15}, "<")
+    .from(gsapSphere5.position, {duration: 1, x: -15, y: 15}, "<")
+    .from(gsapSphere8.position, {duration: 1, x: -15, y: -15}, "<")
+    .from(gsapSphere9.position, {duration: 1, x: 15, y: -15}, "<")
+    .from(gsapSphere10.position, {duration: 1, y: 50}, "<")
+    .from(gsapSphere11.position, {duration: 1, y: 50}, "<")
+    .from(gsapSphere12.position, {duration: 1, y: -50}, "<")
+    .from(gsapSphere13.position, {duration: 1, x: 0, y: 0}, "<")
+    .to(gsapPivot.position, {duration: 1, x: 20, y: -20}, "<")
     // spheres rotate once
     .to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2), ease: "none", onStart: function() {
         gsapSphereArray.forEach((gsapSphere, i) => {
@@ -492,12 +497,19 @@ tl.to(gsapPivot.rotation, {duration: 10, x: -0.5, y: 0.5, z: -(Math.PI * 2) * 2,
     })
 }});
 gsapSphereArray.forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(13, i+1, 130 - i*10), y: setYFromCenter(13, i+1, 130 - i*10)}, "<")
+    // sphere 3 going out sphere 2 going in
+    if (i < 6) {
+        var sphereSplitter = i + 8
+    } else {
+        var sphereSplitter = i - 5
+    }
+    let distanceAwayFromCenter = 150 - sphereSplitter*10
+    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(13, i+1, distanceAwayFromCenter), y: setYFromCenter(13, i+1, distanceAwayFromCenter)}, "<")
 })
 
 // third rotation where it spins in with less spheres
-let gsapSphereArraySmaller = gsapSphereArray.slice(totalSphereNumber-6);
-let gsapSphereArrayRemainder = gsapSphereArray.slice(0, totalSphereNumber-6);
+let gsapSphereArraySmaller = gsapSphereArray.slice(totalSphereNumber-13, totalSphereNumber-7);
+let gsapSphereArrayRemainder = gsapSphereArray.slice(totalSphereNumber-7);
 tl.to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2) * 3, ease: "none", onStart: function() {
     gsapSphereArraySmaller.forEach((gsapSphere, i) => {
         // dim effects
@@ -516,33 +528,34 @@ tl.to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2) * 3, ease: "none", on
         }
     })
 }});
+tl.to(gsapPivot.position, {duration: 10, x: 0, y: 0}, "<");
 gsapSphereArraySmaller.forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(6, i+1, 10), y: setYFromCenter(6, i+1, 10)}, "<")
+    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(6, i+1, 20), y: setYFromCenter(6, i+1, 20)}, "<")
 })
 gsapSphereArrayRemainder.forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(13, i+1, 2000), y: setYFromCenter(13, i+1, 1000)}, "<")
+    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(13, i+1, -1000), y: setYFromCenter(13, i+1, -2000)}, "<")
 })
 
 // Spheres leave circle formation
 tl.to(gsapPivot.rotation, {duration: 5, z: -(Math.PI * 2) * 3 - 0.5});
-tl.to(gsapSphere13.position, {duration: 5, x: 15}, "<");
-tl.to(gsapSphere12.position, {duration: 5, x: -5, y: 3, z: 10}, "<");
-tl.to(gsapSphere11.position, {duration: 5, x: -10}, "<");
-tl.to(gsapSphere10.position, {duration: 5, x: 3, y: -10}, "<");
-tl.to(gsapSphere9.position, {duration: 5, x: 18, y: -8, z: 0}, "<");
-tl.to(gsapSphere8.position, {duration: 5, x: 18, y: 8, z: 0}, "<");
+tl.to(gsapSphere6.position, {duration: 5, x: 15}, "<");
+tl.to(gsapSphere5.position, {duration: 5, x: -5, y: 3, z: 10}, "<");
+tl.to(gsapSphere4.position, {duration: 5, x: -10}, "<");
+tl.to(gsapSphere3.position, {duration: 5, x: 3, y: -10}, "<");
+tl.to(gsapSphere2.position, {duration: 5, x: 18, y: -8, z: 0}, "<");
+tl.to(gsapSphere1.position, {duration: 5, x: 18, y: 8, z: 0}, "<");
 
 // Spheres surround lit sphere
 tl.to(gsapPivot.rotation, {duration: 2, x: 0, y: 0, z: -(Math.PI * 2) * 3});
-tl.to(gsapSphere13.position, {duration: 2, x: 0, y: 0, z: 5}, "<");
+tl.to(gsapSphere6.position, {duration: 2, x: 0, y: 0, z: 5}, "<");
 gsapSphereArraySmaller.slice(0, 5).forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 2, x: setXFromCenter(5, i+1, 15), y: setYFromCenter(5, i+1, 15), z: 0}, "<")
+    tl.to(gsapSphere.position, {duration: 2, x: setXFromCenter(5, i+1, 45), y: setYFromCenter(5, i+1, 45), z: 0}, "<")
 })
 
 // Spheres split appart
-tl.to(gsapSphere13.position, {duration: 1, x: 0, y: 100, z: 5});
+tl.to(gsapSphere6.position, {duration: 1, x: 0, y: 100, z: 5});
 gsapSphereArraySmaller.slice(0, 5).forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 1, x: setXFromCenter(5, i+1, 100), y: setYFromCenter(5, i+1, 100), z: 0}, "<")
+    tl.to(gsapSphere.position, {duration: 1, x: setXFromCenter(5, i+1, 130), y: setYFromCenter(5, i+1, 130), z: 0}, "<")
 })
 
 function setXFromCenter(totalSpheres, sphereNumber, distance) {
