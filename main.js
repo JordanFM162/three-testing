@@ -8,7 +8,7 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-const light = new THREE.PointLight( 0xffffff, 1000, 0, 2);
+const light = new THREE.PointLight( 0xffffff, 10, 100, 1);
 light.position.set( 0, 0, 0 );
 // scene.add( light );
 
@@ -328,7 +328,7 @@ const gsapSphere10 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone())
 const gsapSphere11 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
 const gsapSphere12 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
 const gsapSphere13 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
-gsapSphere13.material.emissiveIntensity = 1;
+gsapSphere13.material.emissiveIntensity = 0.5;
 gsapSphere13.add(light);
 
 var distanceFromCenter = 50;
@@ -441,7 +441,7 @@ gsapScene.add(gsapPivot);
 
 tl
     // spheres zoom out
-    .from(gsapPivot.position, {duration: 3, z: 70, ease: CustomEase.create("custom", "M0,0 C1.043,-0.036 0.234,0.989 1,1 ")})
+    .from(gsapPivot.position, {duration: 3, z: 80, ease: CustomEase.create("custom", "M0,0 C1.043,-0.036 0.234,0.989 1,1 ")})
     // spheres move from x position to the circle position
     .from(gsapSphere1.position, {duration: 1, x: 50, y: -50})
     .from(gsapSphere7.position, {duration: 1, x: 50, y: -50}, "<")
@@ -465,35 +465,38 @@ tl
             t2.to(gsapSphereArray[gsapSphereArray.length - i - 1].material, {duration: 10 / totalSphereNumber / 2, emissiveIntensity: 0, ease: "none"}, "<");
             //brighten effects
             if (i === gsapSphereArray.length - 1) {
-                t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
+                t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
             } else {
-                t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
+                t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
             }
             if (i === gsapSphereArray.length - 1) {
-                t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 10 / totalSphereNumber / 2, emissiveIntensity: 1, ease: "none"}, "<");
+                t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 10 / totalSphereNumber / 2, emissiveIntensity: 0.5, ease: "none"}, "<");
             } else {
-                t2.to(gsapSphereArray[gsapSphereArray.length - i - 2].material, {duration: 10 / totalSphereNumber / 2, emissiveIntensity: 1, ease: "none"}, "<");
+                t2.to(gsapSphereArray[gsapSphereArray.length - i - 2].material, {duration: 10 / totalSphereNumber / 2, emissiveIntensity: 0.5, ease: "none"}, "<");
             }
         })
     }});
 
 // second rotation where it spins out
-tl.to(gsapPivot.rotation, {duration: 10, x: -0.5, y: 0.5, z: -(Math.PI * 2) * 2, ease: "none", onStart: function() {
+tl.to(gsapPivot.rotation, {duration: 5, x: -0.5, y: 0.5, z: -(Math.PI * 2) * 2, ease: "none", onStart: function() {
     gsapSphereArray.forEach((gsapSphere, i) => {
-        // dim effects
-        t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: 0, ease: "none"});
-        t2.to(gsapSphereArray[gsapSphereArray.length - i - 1].material, {duration: 10 / 8 / 2, emissiveIntensity: 0, ease: "none"}, "<");
-        //brighten effects
-        if (i === gsapSphereArray.length - 1) {
-            t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
-        } else {
-            t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
+        if (i < 2 || i > 5) {
+            // dim effects
+            t2.to(light, {duration: 5 / totalSphereNumber / 2, intensity: 0, ease: "none"});
+            t2.to(gsapSphereArray[gsapSphereArray.length - i - 1].material, {duration: 5 / 8 / 2, emissiveIntensity: 0, ease: "none"}, "<");
+            //brighten effects
+            if (i === gsapSphereArray.length - 1) {
+                t2.to(light, {duration: 5 / totalSphereNumber / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
+            } else {
+                t2.to(light, {duration: 5 / totalSphereNumber / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
+            }
+            if (i === gsapSphereArray.length - 1) {
+                t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 5 / totalSphereNumber / 2, emissiveIntensity: 0.5, ease: "none"}, "<");
+            } else {
+                t2.to(gsapSphereArray[gsapSphereArray.length - i - 2].material, {duration: 5 / totalSphereNumber / 2, emissiveIntensity: 0.5, ease: "none"}, "<");
+            }
         }
-        if (i === gsapSphereArray.length - 1) {
-            t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 10 / totalSphereNumber / 2, emissiveIntensity: 1, ease: "none"}, "<");
-        } else {
-            t2.to(gsapSphereArray[gsapSphereArray.length - i - 2].material, {duration: 10 / totalSphereNumber / 2, emissiveIntensity: 1, ease: "none"}, "<");
-        }
+        
     })
 }});
 gsapSphereArray.forEach((gsapSphere, i) => {
@@ -504,46 +507,46 @@ gsapSphereArray.forEach((gsapSphere, i) => {
         var sphereSplitter = i - 5
     }
     let distanceAwayFromCenter = 150 - sphereSplitter*10
-    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(13, i+1, distanceAwayFromCenter), y: setYFromCenter(13, i+1, distanceAwayFromCenter)}, "<")
+    tl.to(gsapSphere.position, {duration: 5, x: setXFromCenter(13, i+1, distanceAwayFromCenter), y: setYFromCenter(13, i+1, distanceAwayFromCenter)}, "<")
 })
 
 // third rotation where it spins in with less spheres
 let gsapSphereArraySmaller = gsapSphereArray.slice(totalSphereNumber-13, totalSphereNumber-7);
 let gsapSphereArrayRemainder = gsapSphereArray.slice(totalSphereNumber-7);
-tl.to(gsapPivot.rotation, {duration: 10, z: -(Math.PI * 2) * 3, ease: "none", onStart: function() {
+tl.to(gsapPivot.rotation, {duration: 5, z: -(Math.PI * 2) * 3, ease: "none", onStart: function() {
     gsapSphereArraySmaller.forEach((gsapSphere, i) => {
         // dim effects
-        t2.to(light, {duration: 10 / 6 / 2, intensity: 0, ease: "none"});
-        t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 1].material, {duration: 10 / 6 / 2, emissiveIntensity: 0, ease: "none"}, "<");
+        t2.to(light, {duration: 5 / 6 / 2, intensity: 0, ease: "none"});
+        t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 1].material, {duration: 5 / 6 / 2, emissiveIntensity: 0, ease: "none"}, "<");
         //brighten effects
         if (i === gsapSphereArraySmaller.length - 1) {
-            t2.to(light, {duration: 10 / 6 / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - 1].add(light)}});
+            t2.to(light, {duration: 5 / 6 / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - 1].add(light)}});
         } else {
-            t2.to(light, {duration: 10 / 6 / 2, intensity: 1000, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 2].add(light)}});
+            t2.to(light, {duration: 5 / 6 / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 2].add(light)}});
         }
         if (i === gsapSphereArraySmaller.length - 1) {
-            t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - 1].material, {duration: 10 / 6 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+            t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - 1].material, {duration: 5 / 6 / 2, emissiveIntensity: 0.5, ease: "none"}, "<");
         } else {
-            t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 2].material, {duration: 10 / 6 / 2, emissiveIntensity: 1, ease: "none"}, "<");
+            t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 2].material, {duration: 5 / 6 / 2, emissiveIntensity: 0.5, ease: "none"}, "<");
         }
     })
 }});
-tl.to(gsapPivot.position, {duration: 10, x: 0, y: 0}, "<");
+tl.to(gsapPivot.position, {duration: 5, x: 0, y: 0}, "<");
 gsapSphereArraySmaller.forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(6, i+1, 20), y: setYFromCenter(6, i+1, 20)}, "<")
+    tl.to(gsapSphere.position, {duration: 5, x: setXFromCenter(6, i+1, 20), y: setYFromCenter(6, i+1, 20)}, "<")
 })
 gsapSphereArrayRemainder.forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 10, x: setXFromCenter(13, i+1, -1000), y: setYFromCenter(13, i+1, -2000)}, "<")
+    tl.to(gsapSphere.position, {duration: 5, x: setXFromCenter(13, i+1, -1000), y: setYFromCenter(13, i+1, -2000)}, "<")
 })
 
 // Spheres leave circle formation
 tl.to(gsapPivot.rotation, {duration: 5, z: -(Math.PI * 2) * 3 - 0.5});
-tl.to(gsapSphere6.position, {duration: 5, x: 15}, "<");
-tl.to(gsapSphere5.position, {duration: 5, x: -5, y: 3, z: 10}, "<");
-tl.to(gsapSphere4.position, {duration: 5, x: -10}, "<");
-tl.to(gsapSphere3.position, {duration: 5, x: 3, y: -10}, "<");
-tl.to(gsapSphere2.position, {duration: 5, x: 18, y: -8, z: 0}, "<");
-tl.to(gsapSphere1.position, {duration: 5, x: 18, y: 8, z: 0}, "<");
+tl.to(gsapSphere6.position, {duration: 5, x: 10, y: 5}, "<");
+tl.to(gsapSphere5.position, {duration: 5, x: -15, y: 3, z: 20}, "<");
+tl.to(gsapSphere4.position, {duration: 5, x: -20}, "<");
+tl.to(gsapSphere3.position, {duration: 5, x: 13, y: -20}, "<");
+tl.to(gsapSphere2.position, {duration: 5, x: 28, y: -18, z: 0}, "<");
+tl.to(gsapSphere1.position, {duration: 5, x: 28, y: 18, z: 0}, "<");
 
 // Spheres surround lit sphere
 tl.to(gsapPivot.rotation, {duration: 2, x: 0, y: 0, z: -(Math.PI * 2) * 3});
@@ -615,7 +618,7 @@ gsapScene.add(ambientLight);
 // });
 
 // Handle mouse movements
-const mouseLight = new THREE.PointLight( 0xffffff, 1000, 0, 2);
+const mouseLight = new THREE.PointLight( 0xffffff, 10, 100, 1);
 mouseLight.position.set( 1000, 1000, 10 );
 gsapScene.add(mouseLight);
 const gsapPlane = new THREE.Mesh( new THREE.PlaneGeometry( window.innerWidth, window.innerHeight ), new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true, opacity: 0} ) );
