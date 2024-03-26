@@ -8,11 +8,12 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth, window.innerHeight );
 document.body.appendChild( renderer.domElement );
 
-const light = new THREE.PointLight( 0xffffff, 10, 100, 1);
+const lightOriginalIntensity = 10
+const light = new THREE.PointLight( 0xB4EC77, lightOriginalIntensity, 100, 1);
 light.position.set( 0, 0, 0 );
 // scene.add( light );
 
-const ambientLight = new THREE.AmbientLight("rgb(180, 236, 119)", 0.5);
+const ambientLight = new THREE.AmbientLight("rgb(41, 109, 118)", 10);
 scene.add(ambientLight);
 
 const sphereSize = 1;
@@ -312,7 +313,7 @@ gsapScene.background = gsapSceneColor;
 // console.log(gsapScene.background);
 
 const gsapGeometry = new THREE.SphereGeometry( 10, 32, 16 ); 
-const lightableStandardMesh = new THREE.MeshStandardMaterial( {color: 0xB4EC77, emissive: 0xB4EC77, emissiveIntensity: 0} );
+const lightableStandardMesh = new THREE.MeshStandardMaterial( {color: 0x296D76, emissive: 0xB4EC77, emissiveIntensity: 0} );
 const testStandardMesh = new THREE.MeshStandardMaterial( {color: 0xB40000, emissive: 0xB40000, emissiveIntensity: 0} )
 
 const gsapSphere1 = new THREE.Mesh(gsapGeometry, lightableStandardMesh.clone());
@@ -448,10 +449,10 @@ tl
     .from(gsapSphere6.position, {duration: 1, x: 50, y: -50}, "<")
     .from(gsapSphere4.position, {duration: 1, x: 50, y: -50}, "<")
     .from(gsapSphere2.position, {duration: 1, x: 50, y: -50}, "<")
-    .from(gsapSphere3.position, {duration: 1, x: 15, y: 15}, "<")
-    .from(gsapSphere5.position, {duration: 1, x: -15, y: 15}, "<")
-    .from(gsapSphere8.position, {duration: 1, x: -15, y: -15}, "<")
-    .from(gsapSphere9.position, {duration: 1, x: 15, y: -15}, "<")
+    .from(gsapSphere3.position, {duration: 1, x: 25, y: 25}, "<")
+    .from(gsapSphere5.position, {duration: 1, x: -25, y: 25}, "<")
+    .from(gsapSphere8.position, {duration: 1, x: -25, y: -25}, "<")
+    .from(gsapSphere9.position, {duration: 1, x: 25, y: -25}, "<")
     .from(gsapSphere10.position, {duration: 1, y: 50}, "<")
     .from(gsapSphere11.position, {duration: 1, y: 50}, "<")
     .from(gsapSphere12.position, {duration: 1, y: -50}, "<")
@@ -465,9 +466,9 @@ tl
             t2.to(gsapSphereArray[gsapSphereArray.length - i - 1].material, {duration: 10 / totalSphereNumber / 2, emissiveIntensity: 0, ease: "none"}, "<");
             //brighten effects
             if (i === gsapSphereArray.length - 1) {
-                t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
+                t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: lightOriginalIntensity, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
             } else {
-                t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
+                t2.to(light, {duration: 10 / totalSphereNumber / 2, intensity: lightOriginalIntensity, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
             }
             if (i === gsapSphereArray.length - 1) {
                 t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 10 / totalSphereNumber / 2, emissiveIntensity: 0.5, ease: "none"}, "<");
@@ -486,9 +487,9 @@ tl.to(gsapPivot.rotation, {duration: 5, x: -0.5, y: 0.5, z: -(Math.PI * 2) * 2, 
             t2.to(gsapSphereArray[gsapSphereArray.length - i - 1].material, {duration: 5 / 8 / 2, emissiveIntensity: 0, ease: "none"}, "<");
             //brighten effects
             if (i === gsapSphereArray.length - 1) {
-                t2.to(light, {duration: 5 / totalSphereNumber / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
+                t2.to(light, {duration: 5 / totalSphereNumber / 2, intensity: lightOriginalIntensity, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - 1].add(light)}});
             } else {
-                t2.to(light, {duration: 5 / totalSphereNumber / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
+                t2.to(light, {duration: 5 / totalSphereNumber / 2, intensity: lightOriginalIntensity, ease: "none", onStart: function() {gsapSphereArray[gsapSphereArray.length - i - 2].add(light)}});
             }
             if (i === gsapSphereArray.length - 1) {
                 t2.to(gsapSphereArray[gsapSphereArray.length - 1].material, {duration: 5 / totalSphereNumber / 2, emissiveIntensity: 0.5, ease: "none"}, "<");
@@ -506,9 +507,10 @@ gsapSphereArray.forEach((gsapSphere, i) => {
     } else {
         var sphereSplitter = i - 5
     }
-    let distanceAwayFromCenter = 150 - sphereSplitter*10
+    let distanceAwayFromCenter = 180 - sphereSplitter*10
     tl.to(gsapSphere.position, {duration: 5, x: setXFromCenter(13, i+1, distanceAwayFromCenter), y: setYFromCenter(13, i+1, distanceAwayFromCenter)}, "<")
 })
+tl.to(gsapPivot.position, {duration: 5, x: 0, y: 0, ease: "expo.out"}, "<");
 
 // third rotation where it spins in with less spheres
 let gsapSphereArraySmaller = gsapSphereArray.slice(totalSphereNumber-13, totalSphereNumber-7);
@@ -520,9 +522,9 @@ tl.to(gsapPivot.rotation, {duration: 5, z: -(Math.PI * 2) * 3, ease: "none", onS
         t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 1].material, {duration: 5 / 6 / 2, emissiveIntensity: 0, ease: "none"}, "<");
         //brighten effects
         if (i === gsapSphereArraySmaller.length - 1) {
-            t2.to(light, {duration: 5 / 6 / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - 1].add(light)}});
+            t2.to(light, {duration: 5 / 6 / 2, intensity: lightOriginalIntensity, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - 1].add(light)}});
         } else {
-            t2.to(light, {duration: 5 / 6 / 2, intensity: 10, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 2].add(light)}});
+            t2.to(light, {duration: 5 / 6 / 2, intensity: lightOriginalIntensity, ease: "none", onStart: function() {gsapSphereArraySmaller[gsapSphereArraySmaller.length - i - 2].add(light)}});
         }
         if (i === gsapSphereArraySmaller.length - 1) {
             t2.to(gsapSphereArraySmaller[gsapSphereArraySmaller.length - 1].material, {duration: 5 / 6 / 2, emissiveIntensity: 0.5, ease: "none"}, "<");
@@ -531,9 +533,15 @@ tl.to(gsapPivot.rotation, {duration: 5, z: -(Math.PI * 2) * 3, ease: "none", onS
         }
     })
 }});
-tl.to(gsapPivot.position, {duration: 5, x: 0, y: 0}, "<");
 gsapSphereArraySmaller.forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 5, x: setXFromCenter(6, i+1, 20), y: setYFromCenter(6, i+1, 20)}, "<")
+    tl.to(gsapSphere.position, {duration: 5, x: setXFromCenter(6, i+1, 30), y: setYFromCenter(6, i+1, 30)}, "<")
+    // tl.to(gsapSphere.position, {duration: 2, x: setXFromCenter(13, i+1, 40), y: setYFromCenter(13, i+1, 40), onComplete: function() {
+    //     if (i == gsapSphereArraySmaller.length-1) {
+    //         gsapSphereArraySmaller.forEach((gsapSphere, i) => {
+    //             gsap.to(gsapSphere.position, {duration: 3, x: setXFromCenter(6, i+1, 30), y: setYFromCenter(6, i+1, 30)})
+    //         })
+    //     }
+    // }}, "<")
 })
 gsapSphereArrayRemainder.forEach((gsapSphere, i) => {
     tl.to(gsapSphere.position, {duration: 5, x: setXFromCenter(13, i+1, -1000), y: setYFromCenter(13, i+1, -2000)}, "<")
@@ -541,18 +549,18 @@ gsapSphereArrayRemainder.forEach((gsapSphere, i) => {
 
 // Spheres leave circle formation
 tl.to(gsapPivot.rotation, {duration: 5, z: -(Math.PI * 2) * 3 - 0.5});
-tl.to(gsapSphere6.position, {duration: 5, x: 10, y: 5}, "<");
-tl.to(gsapSphere5.position, {duration: 5, x: -15, y: 3, z: 20}, "<");
-tl.to(gsapSphere4.position, {duration: 5, x: -20}, "<");
-tl.to(gsapSphere3.position, {duration: 5, x: 13, y: -20}, "<");
-tl.to(gsapSphere2.position, {duration: 5, x: 28, y: -18, z: 0}, "<");
-tl.to(gsapSphere1.position, {duration: 5, x: 28, y: 18, z: 0}, "<");
+tl.to(gsapSphere6.position, {duration: 5, x: 10, y: 30, z: -15}, "<");
+tl.to(gsapSphere5.position, {duration: 5, x: -25, y: 25, z: 0}, "<");
+tl.to(gsapSphere4.position, {duration: 5, x: -30, y: -10, z: 0}, "<");
+tl.to(gsapSphere3.position, {duration: 5, x: 0, y: -20, z: -10}, "<");
+tl.to(gsapSphere2.position, {duration: 5, x: 28, y: -25, z: 0}, "<");
+tl.to(gsapSphere1.position, {duration: 5, x: 40, y: 10, z: 10}, "<");
 
 // Spheres surround lit sphere
-tl.to(gsapPivot.rotation, {duration: 2, x: 0, y: 0, z: -(Math.PI * 2) * 3});
+tl.to(gsapPivot.rotation, {duration: 2, x: 0, y: 0, z: -(Math.PI * 2) * 3 - 0.5});
 tl.to(gsapSphere6.position, {duration: 2, x: 0, y: 0, z: 5}, "<");
 gsapSphereArraySmaller.slice(0, 5).forEach((gsapSphere, i) => {
-    tl.to(gsapSphere.position, {duration: 2, x: setXFromCenter(5, i+1, 45), y: setYFromCenter(5, i+1, 45), z: 0}, "<")
+    tl.to(gsapSphere.position, {duration: 2, x: setXFromCenter(5, i+1, 25), y: setYFromCenter(5, i+1, 25), z: 0}, "<")
 })
 
 // Spheres split appart
@@ -618,7 +626,7 @@ gsapScene.add(ambientLight);
 // });
 
 // Handle mouse movements
-const mouseLight = new THREE.PointLight( 0xffffff, 10, 100, 1);
+const mouseLight = new THREE.PointLight( 0xB4EC77, 10, 100, 1);
 mouseLight.position.set( 1000, 1000, 10 );
 gsapScene.add(mouseLight);
 const gsapPlane = new THREE.Mesh( new THREE.PlaneGeometry( window.innerWidth, window.innerHeight ), new THREE.MeshBasicMaterial( {color: 0xffff00, transparent: true, opacity: 0} ) );
@@ -642,6 +650,11 @@ if (intersection.length > 0) {
     // console.log(mouseLight.position);
 }
 });
+
+// Spotlight to give shading
+const spotlight = new THREE.PointLight( 0xffffff, 20, 500, 1);
+spotlight.position.set(100, 100, 50)
+gsapScene.add(spotlight);
 
 //   // Handle mouse movements
 //   window.addEventListener('mousemove', (event) => {
